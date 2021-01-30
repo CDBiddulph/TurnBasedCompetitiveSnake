@@ -53,40 +53,54 @@ function findEmptyCell(board) {
     return result;
 }
 
+function cellInDirection(startCell, direction) {
+    switch (direction) {
+        case "Left":
+            return {x: startCell.x - 1, y: startCell.y};
+        case "Right":
+            return {x: startCell.x + 1, y: startCell.y};
+        case "Up":
+            return {x: startCell.x, y: startCell.y - 1};
+        case "Down":
+            return {x: startCell.x, y: startCell.y + 1};
+        default:
+            return null; 
+    }
+}
+
 function Update(state, key, player) {
     const playerI = player - 1;
     let board = state.board.slice();
     let head = state.players[playerI].head;
-    let toCellCoords;
-    switch (key) {
-        case "ArrowLeft":
-            toCellCoords = {x: head.x - 1, y: head.y};
-            break;
-        case "ArrowRight":
-            toCellCoords = {x: head.x + 1, y: head.y};
-            break;
-        case "ArrowUp":
-            toCellCoords = {x: head.x, y: head.y - 1};
-            break;
-        case "ArrowDown":
-            toCellCoords = {x: head.x, y: head.y + 1};
-            break;
-        default:
-            return {}; //don't change the state
-    }
+    let tail = state.players[playerI].tail;
+    // slice off the "Arrow" part of the key
+    let direction = key.slice(5);
+    let toCellCoords = cellInDirection(head, direction);
+    // the cell the snake is trying to move to
     const toCell = getCell(state.board, toCellCoords.x, toCellCoords.y);
+    // make sure it isn't bumping into anything
     if (!toCell)
         return {};
     const toCellColor = toCell.color;
     if (toCellColor !== emptyColor && toCellColor !== fruitColor)
         return {};
-    getCell(board, head.x, head.y).color = emptyColor;
+    // set the direction of the last cell to be the head
+    // so we know where the tail should go later on
+    getCell(board, head.x, head.y).toward = direction;
+    // retract the tail
+    if (toCellColor !== fruitColor) {
+        let oldTailCell = getCell(board, tail.x, tail.y);
+        oldTailCell.color = emptyColor;
+        tail = cellInDirection(tail, oldTailCell.toward);
+    }
+    // advance the head
     head = toCellCoords;
     getCell(board, head.x, head.y).color = playerColors[playerI];
 
     let newState = {board: board};
     newState.players = [...state.players];
     newState.players[playerI].head = head;
+    newState.players[playerI].tail = tail;
     if (toCellColor === fruitColor) {
         newState.players[playerI].numFruit += 1;
         findEmptyCell(board).color = fruitColor;
