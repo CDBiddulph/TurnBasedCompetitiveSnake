@@ -19,16 +19,12 @@ ol, ul {
 
 .board-cell {
   background: #fff;
-  border: 1px solid #999;
+  border: 1px solid #aaa;
   float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
   height: 34px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
-  text-align: center;
   width: 34px;
 }
 
@@ -43,6 +39,7 @@ ol, ul {
 .game {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .game-info {
@@ -50,5 +47,8 @@ ol, ul {
 }
 
 .game-board {
-  margin: auto;
+  margin-left: 100px;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 10px;
 }

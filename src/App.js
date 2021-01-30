@@ -31,7 +31,7 @@ class Row extends React.Component {
 class Board extends React.Component {
   render() {
     return (
-      <div>
+      <div className="game-board">
         {this.props.board.map((row, i) => (
           <Row
             key={i}
@@ -74,9 +74,7 @@ class App extends React.Component {
             </div>
           ))}
         </div>
-        <div className="game-board">
-          <Board board={this.state.board} />
-        </div>
+        <Board board={this.state.board} />
       </div>
     );
   }
