@@ -47,10 +47,8 @@ function Score(props) {
     <div className="score">
       {props.players.map((player, i) => (
         <div key={i} className="player-score">
-          <h1 className={"player-heading" + (props.playerTurn === i ? " my-turn" : "")}
-            style={{ color: ColorMap[i+1],
-                     "box-shadow": props.playerTurn === i ? ("0px 0px 5px 5px " + ColorMap[i+1]) : null
-                   }}>
+          <h1 className={"player-heading"}
+            style={{ color: ColorMap[i+1], "box-shadow": props.playerTurn === i ? ("0px 0px 5px 5px " + ColorMap[i+1]) : null }}>
               P{i+1}
           </h1> 
           <h2> Rounds won: {player.roundsWon} </h2> 
@@ -80,11 +78,18 @@ class App extends React.Component {
     this.setState(Update(this.state, event.key));
   }
 
+  restartGame() {
+    this.setState(Initialize(this.state.boardSize));
+  }
+
   render() {
     return (
       <div className="game">
-        <Score players={this.state.players} playerTurn={this.state.playerTurn} />
-        <Board board={this.state.board} />
+        <div className="game-top">
+          <Score players={this.state.players} playerTurn={this.state.playerTurn} />
+          <Board board={this.state.board} />
+        </div>
+        <button className="restart" onClick={() => { this.restartGame(); }}>Restart Game</button>
       </div>
     );
   }

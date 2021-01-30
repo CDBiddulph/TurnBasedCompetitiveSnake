@@ -36,14 +36,15 @@ ol, ul {
   background: #ddd;
 }
 
-.game {
+.game-top {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-.game-info {
-  margin-left: 20px;
+.game {
+  display: flex;
+  flex-direction: column;
 }
 
 .game-board {
@@ -59,4 +60,9 @@ ol, ul {
 
 .player-header {
   background-color: white;
+}
+
+.restart {
+  margin: auto;
+  display: inline-block;
 }
