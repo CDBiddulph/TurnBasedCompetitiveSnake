@@ -28,19 +28,35 @@ class Row extends React.Component {
   }
 }
 
-class Board extends React.Component {
-  render() {
-    return (
-      <div className="game-board">
-        {this.props.board.map((row, i) => (
-          <Row
-            key={i}
-            cells={row}
-          />
-        ))}
-      </div>
-    );
-  }
+function Board(props) {
+  return (
+    <div className="game-board">
+      {props.board.map((row, i) => (
+        <Row
+          key={i}
+          cells={row}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Score(props) {
+  console.log(props.playerTurn);
+  return (
+    <div className="score">
+      {props.players.map((player, i) => (
+        <div key={i} className="player-score">
+          <h1 className={"player-heading" + (props.playerTurn === i ? " my-turn" : "")}
+            style={{ color: ColorMap[i+1] }}>
+              P{i+1}
+          </h1> 
+          <h2> Rounds won: {player.roundsWon} </h2> 
+          <h2> Fruit eaten: {player.fruitEaten} </h2> 
+        </div>
+      ))}
+    </div>
+  );
 }
 
 class App extends React.Component {
@@ -65,15 +81,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="game">
-        <div className="score">
-          {this.state.players.map((player, i) => (
-            <div className="player-score">
-              <h1 style={{ color: ColorMap[i+1] }}> P{i+1} </h1> 
-              <h2> Rounds won: {player.roundsWon} </h2> 
-              <h2> Fruit eaten: {player.fruitEaten} </h2> 
-            </div>
-          ))}
-        </div>
+        <Score players={this.state.players} playerTurn={this.state.playerTurn} />
         <Board board={this.state.board} />
       </div>
     );

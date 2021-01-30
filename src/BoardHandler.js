@@ -1,6 +1,10 @@
 const CellContents = Object.freeze({"EMPTY":0, "PLAYER1":1, "PLAYER2":2, "FRUIT":3}) 
 const numFruit = 2;
 const directions = ["Up", "Down", "Left", "Right"]
+const dirKeys = {
+    0: {"w": "Up", "s": "Down", "a": "Left", "d": "Right"}, 
+    1: {"ArrowUp": "Up", "ArrowDown": "Down", "ArrowLeft": "Left", "ArrowRight": "Right"}, 
+}
 
 function Initialize(boardSize, startingPlayerI = 0, roundsWon = [0, 0]) {
     let board = [];
@@ -78,9 +82,9 @@ function Update(state, key) {
     let board = state.board.slice();
     let head = state.players[playerI].head;
     let tail = state.players[playerI].tail;
-    // slice off the "Arrow" part of the key
-    console.log(key);
-    let tryDir = key.slice(5);
+    let tryDir = dirKeys[playerI][key];
+    if (!tryDir)
+        return {};
     // toCell is the cell the snake is trying to move to
     let toCellCoords = cellInDirection(head, tryDir);
     if (toCellCoords == null)
@@ -120,7 +124,7 @@ function Update(state, key) {
     if (trapped) {
         let roundsWon = [state.players[0].roundsWon, state.players[1].roundsWon];
         let winnerI = playerI;
-        let startingPlayer = state.startingPlayer === 0 ? 1 : 0;
+        let startingPlayer = state.startingPlayerI === 0 ? 1 : 0;
         roundsWon[winnerI] += 1;
         return Initialize(state.boardSize, startingPlayer, roundsWon);
     }

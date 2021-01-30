@@ -52,3 +52,11 @@ ol, ul {
   margin-bottom: auto;
   padding: 10px;
 }
+
+.player-score {
+  text-align: center;
+}
+
+.my-turn {
+  background-color: yellow;
+}
