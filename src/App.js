@@ -48,7 +48,9 @@ function Score(props) {
       {props.players.map((player, i) => (
         <div key={i} className="player-score">
           <h1 className={"player-heading" + (props.playerTurn === i ? " my-turn" : "")}
-            style={{ color: ColorMap[i+1] }}>
+            style={{ color: ColorMap[i+1],
+                     "box-shadow": props.playerTurn === i ? ("0px 0px 5px 5px " + ColorMap[i+1]) : null
+                   }}>
               P{i+1}
           </h1> 
           <h2> Rounds won: {player.roundsWon} </h2> 

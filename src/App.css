@@ -57,6 +57,6 @@ ol, ul {
   text-align: center;
 }
 
-.my-turn {
-  background-color: yellow;
+.player-header {
+  background-color: white;
 }
