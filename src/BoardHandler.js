@@ -104,10 +104,11 @@ function Update(state, key) {
     // advance the head
     head = toCellCoords;
     getCell(board, head.x, head.y).contents = CellContents["PLAYER" + (playerI + 1)];
-    // check for trapped state
+    // check for trapped state of next player
+    const otherP = state.players[(playerI + 1) % state.players.length];
     let trapped = true;
     for (const d of directions) {
-        const nCellCoords = cellInDirection(head, d);
+        const nCellCoords = cellInDirection(otherP.head, d);
         if (nCellCoords) {
             const nCell = getCell(board, nCellCoords.x, nCellCoords.y);
             if (nCell && (nCell.contents === CellContents.EMPTY || nCell.contents === CellContents.FRUIT)) {
@@ -118,7 +119,7 @@ function Update(state, key) {
     }
     if (trapped) {
         let roundsWon = [state.players[0].roundsWon, state.players[1].roundsWon];
-        let winnerI = playerI === 0 ? 1 : 0;
+        let winnerI = playerI;
         let startingPlayer = state.startingPlayer === 0 ? 1 : 0;
         roundsWon[winnerI] += 1;
         return Initialize(state.boardSize, startingPlayer, roundsWon);
