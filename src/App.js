@@ -6,8 +6,13 @@ import {Initialize, Update} from './BoardHandler.js'
 const ColorMap = Object.freeze({0:"white", 1:"green", 2:"blue", 3:"red"});
 
 function Cell(props) {
+  const color = ColorMap[props.contents];
   return (
-    <div className={"board-cell"} style={{ backgroundColor: ColorMap[props.contents] }}></div>
+    <div className={"board-cell"} style={{ 
+          backgroundColor: color,
+          border: "1px solid " + (props.contents === 0 || props.contents === 3 ? "#aaa" : color),
+         }}>
+    </div>
   );
 }
 

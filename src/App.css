@@ -18,8 +18,6 @@ ol, ul {
 }
 
 .board-cell {
-  background: #fff;
-  border: 1px solid #aaa;
   float: left;
   height: 34px;
   margin-right: -1px;
