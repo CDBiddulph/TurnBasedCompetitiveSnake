@@ -3,9 +3,11 @@ import './App.css';
 
 import {Initialize, Update} from './BoardHandler.js'
 
+const ColorMap = Object.freeze({0:"white", 1:"green", 2:"blue", 3:"red"});
+
 function Cell(props) {
   return (
-    <button className={"board-cell"} onClick={props.onClick} style={{ backgroundColor: props.color }}></button>
+    <div className={"board-cell"} style={{ backgroundColor: ColorMap[props.contents] }}></div>
   );
 }
 
@@ -13,7 +15,7 @@ class Row extends React.Component {
   renderCell(cell, i) {
     return <Cell
       key={i}
-      color={cell.color}
+      contents={cell.contents}
     />;
   }
 
@@ -44,7 +46,7 @@ class Board extends React.Component {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    const defaultBoardSize = 8;
+    const defaultBoardSize = 6;
     this.state = Initialize(defaultBoardSize);
   }
 
@@ -57,12 +59,21 @@ class App extends React.Component {
   }
 
   handleKeyPress(event) {
-    this.setState(Update(this.state, event.key, true));
+    this.setState(Update(this.state, event.key));
   }
 
   render() {
     return (
       <div className="game">
+        <div className="score">
+          {this.state.players.map((player, i) => (
+            <div className="player-score">
+              <h1 style={{ color: ColorMap[i+1] }}> P{i+1} </h1> 
+              <h2> Rounds won: {player.roundsWon} </h2> 
+              <h2> Fruit eaten: {player.fruitEaten} </h2> 
+            </div>
+          ))}
+        </div>
         <div className="game-board">
           <Board board={this.state.board} />
         </div>
